@@ -15,15 +15,27 @@
         window.addEventListener('load',  function() {
 
 
-            const createTemplate = ({text = '', first_brewed = '', description = ''}) => {
+            const createTemplate = (
+                {
+                    text = '',
+                    first_brewed = '',
+                    description = '',
+                    image_url = ''
+                }
+                ) => {
 
                 const _block = document.createElement('div')
-                _block.classList.add('block')
+                _block.classList.add('product-layout')
 
                 if (text || first_brewed || description) {
-                    const _text = document.createElement('p')
-
-                    _text.innerHTML = (`<img src="https://aussiedlerbote.de/wp-content/uploads/big/2019/08/shutterstock_284297423.jpg" class="img-product" alt=""><div class="title">"${text}"</div> <div class="data"> Дата первого разлива: от ${first_brewed}</div> <div class="description">${description}</div>`)
+                    const _text = document.createElement('div')
+                    _text.classList.add('product-thumb')
+                    _text.innerHTML = (`
+                        <img src="${image_url}" class="img-product" alt="${image_url}">
+                        <div class="title">"${text}"</div>
+                        <div class="data"> Дата первого разлива: от ${first_brewed}</div>
+                        <div class="description">${description}</div>
+                    `)
 
                     _block.appendChild(_text)
                 }
@@ -34,10 +46,11 @@
             }
 
             class Block {
-                constructor(text, first_brewed, description) {
+                constructor(text, first_brewed, description, image_url) {
                     this.text = text;
                     this.first_brewed = first_brewed;
                     this.description = description;
+                    this.image_url = image_url;
 
                     this.init()
                     this.render()
@@ -48,7 +61,14 @@
                 }
 
                 initTemplate() {
-                    this.block = createTemplate({text: this.text, first_brewed: this.first_brewed, description: this.description})
+                    this.block = createTemplate(
+                        {
+                            text: this.text,
+                            first_brewed: this.first_brewed,
+                            description: this.description,
+                            image_url: this.image_url,
+                        }
+                    )
 
                     return this.block
                 }
@@ -66,11 +86,10 @@
                     const beerArr = [];
                     myContent.forEach(elem=>{
                         beerArr.push(elem)
-
                     })
 
                     console.log(beerArr)
-                    beerArr.map(item => new Block( item.name, item.first_brewed, item.description ));
+                    beerArr.map(item => new Block(item.name, item.first_brewed, item.description, item.image_url ));
                 });
 
 

@@ -7,17 +7,22 @@ p{
      display: flex;
      flex-wrap: wrap;
  }
- .block{
-     width: calc(33% - 32px);
+ .product-layout{
+     width: calc(25% - 32px);
      margin: 15px;
-     min-width: 320px;
+     min-width: 288px;
      border: 1px solid #898989;
      padding: 15px 25px;
      border-radius: 5px;
  }
+ .product-thumb{
+     display: flex;
+     flex-direction: column;
+ }
 .img-product {
-    width: 100%;
-    margin-bottom: 6px;
+    height: 200px;
+
+    margin: 0 auto 24px;
 }
  .title{
      font-size: 18px;
