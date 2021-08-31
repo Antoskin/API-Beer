@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>API-Beer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="wrapper"></div>
+
+    <script>
+        window.addEventListener('load',  function() {
+
+
+            const createTemplate = ({text = '', first_brewed = '', description = ''}) => {
+
+                const _block = document.createElement('div')
+                _block.classList.add('block')
+
+                if (text || first_brewed || description) {
+                    const _text = document.createElement('p')
+
+                    _text.innerHTML = (`<img src="https://aussiedlerbote.de/wp-content/uploads/big/2019/08/shutterstock_284297423.jpg" class="img-product" alt=""><div class="title">"${text}"</div> <div class="data"> Дата первого разлива: от ${first_brewed}</div> <div class="description">${description}</div>`)
+
+                    _block.appendChild(_text)
+                }
+
+
+
+                return _block
+            }
+
+            class Block {
+                constructor(text, first_brewed, description) {
+                    this.text = text;
+                    this.first_brewed = first_brewed;
+                    this.description = description;
+
+                    this.init()
+                    this.render()
+                }
+
+                init() {
+                    this._wrap = document.querySelector('.wrapper')
+                }
+
+                initTemplate() {
+                    this.block = createTemplate({text: this.text, first_brewed: this.first_brewed, description: this.description})
+
+                    return this.block
+                }
+
+                render() {
+                    this._wrap.appendChild(this.initTemplate())
+                }
+            }
+
+            fetch('https://api.punkapi.com/v2/beers')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((myContent) => {
+                    const beerArr = [];
+                    myContent.forEach(elem=>{
+                        beerArr.push(elem)
+
+                    })
+
+                    console.log(beerArr)
+                    beerArr.map(item => new Block( item.name, item.first_brewed, item.description ));
+                });
+
+
+
+
+            // const filterName =  names.filter((person)=>{ return person.color >= 1; });
+            // console.log(filterName)
+
+        })
+
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
